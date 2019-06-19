@@ -18,3 +18,27 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'user'], function() use($router){
     $router->post('/', 'UserController@store');
 });
+
+$router->group(['prefix' => 'responsiva'], function() use($router){
+    $router->post('/', 'ResponsivaController@createPdf');
+});
+
+$router->group(['prefix' => 'mobile'], function() use($router){
+    $router->post('/', 'MobileController@store');
+    $router->post('/{id}', 'MobileController@edit');
+    $router->delete('/{id}', 'MobileController@destroy');
+    $router->get('/{id}', 'MobileController@find');
+    $router->get('/', 'MobileController@getAll');
+});
+
+$router->group(['prefix' => 'accesory'], function() use($router){
+    $router->post('/', 'AccesoryController@store');
+    $router->post('/{id}', 'AccesoryController@edit');
+    $router->delete('/{id}', 'AccesoryController@destroy');
+    $router->get('/{id}', 'AccesoryController@find');
+    $router->get('/', 'AccesoryController@getAll');
+});
+
+$router->group(['prefix' => 'logIn'], function() use($router){
+    $router->post('/', 'AuthController@authenticate');
+});
