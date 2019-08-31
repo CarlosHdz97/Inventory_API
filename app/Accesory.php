@@ -6,4 +6,8 @@ class Accesory extends Model{
     protected $fillable = [
         'name', 'existencia', 'stockMin', 'stockMax'
     ];
+
+    public function historic(){
+        return $this->morphMany('App\History', 'historical');
+    }
 }

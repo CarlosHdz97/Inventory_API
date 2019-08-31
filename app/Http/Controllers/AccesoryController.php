@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Accesory;
+use App\History;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,6 +23,17 @@ class AccesoryController extends Controller{
         ]);
     }
 
+    public function createHistory(Request $request){
+        $accesory = Accesory::find($request->mobile_id);
+        $history = new History;
+        $history->responsable = $request->responsable;
+        $history->notes = $request->notes;
+        $history->quantity = 1;
+        $history->action = $request->action;
+        $history->fecha = $request->fecha;
+        $history->sucursal = $request->sucursal;
+        $accesory->historic()->save($history);
+    }
     public function store(Request $request){
         
         $this->checkData($request);
@@ -35,10 +47,25 @@ class AccesoryController extends Controller{
     }
 
     public function getAll(){
-        return response()->json(Accesory::all());
+        $accesories = Accesory::all();
+        foreach($accesories as $accesory){
+            if($accesory->stockMin >= $accesory->existencia){
+                $accesory->status = 'Se tiene que surtir el articulo';
+                $accesory->_rowVariant = 'danger';
+            } else if($accesory->existencia > $accesory->stockMax){
+                $accesory->status = 'Se tiene un desfaso de stock';
+                $accesory->_rowVariant = 'warning';
+            }else{
+                $accesory->status = 'Se tiene una cantidad razonable de articulos articulo';
+                $accesory->_rowVariant = 'success';
+            }
+        }
+        return response()->json($accesories);
     }
     public function find($id){
-        return response()->json(Accesory::find($id));
+        $accesory = Accesory::find($id);
+        $accesory->historic = $accesory->historic;
+        return response()->json($accesory);
     }
     
     public function destroy($id){

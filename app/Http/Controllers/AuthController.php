@@ -52,7 +52,7 @@ class AuthController extends BaseController {
             'password'  => 'required'
         ]);
         // Find the user by email, nickname, num_employer
-        $user = User::where('email', $this->request->user)->first();
+        $user = User::where('nickname', $this->request->user)->first();
         if(!$user){
             return response(['msg' => "Usuario no encontrado", 'status' => 404], 200);
         }
@@ -62,6 +62,7 @@ class AuthController extends BaseController {
                 'token' => $this->jwt($user),
                 'id' => $user->id,
                 'name' => $user->name,
+                'surname' => $user->surname,
                 'authenticate' => true,
                 'status' => 200
             ], 200);

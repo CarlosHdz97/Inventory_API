@@ -6,4 +6,8 @@ class Mobile extends Model{
     protected $fillable = [
         'mobile', 'serie', 'emei', 'accesorios', 'status'
     ];
+
+    public function historic(){
+        return $this->morphMany('App\History', 'historical');
+    }
 }

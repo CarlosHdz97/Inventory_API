@@ -11,15 +11,13 @@ class CreateMobileTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
+    public function up(){
         Schema::create('mobile', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('modelo', '30');
             $table->string('serie', '30');
             $table->string('emei', '30');
             $table->text('accesorios');
-            $table->boolean('status');
             $table->timestamps();
         });
     }

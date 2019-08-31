@@ -17,6 +17,10 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'user'], function() use($router){
     $router->post('/', 'UserController@store');
+    $router->post('/{id}', 'UserController@edit');
+    $router->get('/', 'MobileController@getAvailable');
+    $router->get('/{id}', 'UserController@find');
+    $router->delete('/{id}', 'UserController@destroy');
 });
 
 $router->group(['prefix' => 'responsiva'], function() use($router){
@@ -25,8 +29,10 @@ $router->group(['prefix' => 'responsiva'], function() use($router){
 
 $router->group(['prefix' => 'mobile'], function() use($router){
     $router->post('/', 'MobileController@store');
+    $router->post('/{id}/history', 'MobileController@createHistory');
     $router->post('/{id}', 'MobileController@edit');
     $router->delete('/{id}', 'MobileController@destroy');
+    $router->get('/quantity', 'MobileController@getQuantity');
     $router->get('/{id}', 'MobileController@find');
     $router->get('/', 'MobileController@getAll');
 });
